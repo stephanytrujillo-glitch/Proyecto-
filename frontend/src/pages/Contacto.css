@@ -1,0 +1,40 @@
+.contacto-page { padding: 60px 0 80px; }
+.contacto-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.contacto-header h1 { font-size: 2.2rem; }
+.contacto-header p { color: var(--gris); margin-top: 8px; max-width: 500px; margin-inline: auto; }
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.contacto-info { display: flex; flex-direction: column; gap: 14px; }
+.info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 22px;
+}
+.info-card span { font-size: 1.6rem; flex-shrink: 0; }
+.info-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--marron); margin-bottom: 4px; }
+.info-card p { font-size: 0.88rem; color: var(--gris); line-height: 1.6; }
+.contacto-link { color: var(--rosa-deep); font-size: 0.9rem; font-weight: 500; }
+.contacto-link:hover { text-decoration: underline; }
+
+.contacto-form {
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.contacto-form h3 { font-size: 1.3rem; margin-bottom: 6px; }
+.form-nota { color: var(--gris); font-size: 0.88rem; margin-bottom: 16px; }
+
+@media (max-width: 768px) {
+  .contacto-grid { grid-template-columns: 1fr; }
+}
