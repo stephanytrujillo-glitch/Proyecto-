@@ -17,10 +17,12 @@ export default function Home() {
           api.get('/productos?destacado=true'),
           api.get('/categorias')
         ]);
-        setDestacados(prods.data.slice(0, 4));
-        setCategorias(cats.data);
+        setDestacados(Array.isArray(prods.data) ? prods.data.slice(0, 4) : []);
+        setCategorias(Array.isArray(cats.data) ? cats.data : []);
       } catch (e) {
         console.error(e);
+        setDestacados([]);
+        setCategorias([]);
       } finally {
         setCargando(false);
       }
@@ -102,9 +104,7 @@ export default function Home() {
               Ver todos <ArrowRight size={14} />
             </Link>
           </div>
-          {cargando ? (
-            null
-          ) : (
+          {cargando ? null : (
             <div className="productos-grid">
               {destacados.map(p => <ProductCard key={p.id} producto={p} />)}
             </div>
