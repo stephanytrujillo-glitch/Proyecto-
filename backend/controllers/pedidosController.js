@@ -12,7 +12,6 @@ const crearPedido = async (req, res) => {
   try {
     await conn.beginTransaction();
 
-    // Obtener items del carrito
     const [items] = await conn.query(
       `SELECT c.cantidad, p.id AS producto_id, p.precio, p.stock, p.nombre
        FROM carrito c JOIN productos p ON c.producto_id = p.id
@@ -25,7 +24,6 @@ const crearPedido = async (req, res) => {
       return res.status(400).json({ mensaje: 'El carrito está vacío' });
     }
 
-    // Verificar stock
     for (const item of items) {
       if (item.stock < item.cantidad) {
         await conn.rollback();
@@ -35,13 +33,11 @@ const crearPedido = async (req, res) => {
 
     const total = items.reduce((sum, i) => sum + i.precio * i.cantidad, 0);
 
-    // Crear pedido
     const [pedido] = await conn.query(
       'INSERT INTO pedidos (usuario_id, total, metodo_pago, direccion_entrega, ciudad_entrega, notas) VALUES (?,?,?,?,?,?)',
       [req.usuario.id, total, metodo_pago, direccion_entrega, ciudad_entrega, notas]
     );
 
-    // Insertar items y actualizar stock
     for (const item of items) {
       await conn.query(
         'INSERT INTO pedido_items (pedido_id, producto_id, cantidad, precio_unitario) VALUES (?,?,?,?)',
@@ -53,7 +49,6 @@ const crearPedido = async (req, res) => {
       );
     }
 
-    // Vaciar carrito
     await conn.query('DELETE FROM carrito WHERE usuario_id = ?', [req.usuario.id]);
 
     await conn.commit();
@@ -131,18 +126,19 @@ const actualizarEstado = async (req, res) => {
   try {
     await db.query('UPDATE pedidos SET estado = ? WHERE id = ?', [estado, req.params.id]);
 
-    // HU020 - Notificar al cliente por correo (si hay correo configurado)
     try {
       const [info] = await db.query(
         `SELECT u.correo FROM pedidos p JOIN usuarios u ON p.usuario_id = u.id WHERE p.id = ?`,
         [req.params.id]
       );
       if (info.length > 0) {
+        console.log('Intentando enviar correo a:', info[0].correo, 'estado:', estado);
         const { notificarEstadoPedido } = require('../utils/email');
         await notificarEstadoPedido(info[0].correo, req.params.id, estado);
+        console.log('Correo enviado exitosamente');
       }
     } catch (e) {
-  console.log('Notificación por correo no enviada (modo demo):', e.message, e);
+      console.log('Error correo completo:', e.message, JSON.stringify(e));
     }
 
     res.json({ mensaje: 'Estado del pedido actualizado' });
