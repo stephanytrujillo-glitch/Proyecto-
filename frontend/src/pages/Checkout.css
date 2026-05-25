@@ -1,0 +1,95 @@
+.checkout-page { padding: 40px 0 80px; }
+.checkout-titulo { font-size: 2rem; margin-bottom: 32px; }
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.checkout-form {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.checkout-form h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--marron);
+}
+
+.metodos-pago { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.metodo-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1.5px solid #e5d6da;
+  border-radius: var(--radio-sm);
+  cursor: pointer;
+  transition: var(--transicion);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+.metodo-option input[type="radio"] { display: none; }
+.metodo-option.selected {
+  border-color: var(--rosa-deep);
+  background: var(--rosa-light);
+  color: var(--rosa-deep);
+}
+.metodo-icon { font-size: 1.3rem; }
+
+.checkout-resumen {
+  padding: 28px;
+  position: sticky;
+  top: 88px;
+}
+.checkout-resumen h3 { font-size: 1.1rem; margin-bottom: 20px; }
+.resumen-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.resumen-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+.ri-nombre { flex: 1; color: var(--marron); }
+.ri-cantidad { color: var(--gris); }
+.ri-precio { font-weight: 600; color: var(--marron); min-width: 80px; text-align: right; }
+.checkout-resumen hr { border: none; border-top: 1px solid var(--rosa-light); margin: 16px 0; }
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  color: var(--marron);
+}
+
+/* ÉXITO */
+.exito-card {
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 48px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.exito-icon { font-size: 4rem; }
+.exito-card h2 { font-size: 1.8rem; color: var(--marron); }
+.exito-card p { color: var(--gris); font-size: 0.95rem; }
+.exito-total { font-size: 1.2rem; color: var(--marron); }
+.exito-nota {
+  background: var(--rosa-light);
+  border-radius: var(--radio-sm);
+  padding: 12px 18px;
+  font-size: 0.88rem;
+  color: var(--rosa-deep);
+}
+.exito-acciones { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+
+@media (max-width: 768px) {
+  .checkout-grid { grid-template-columns: 1fr; }
+  .checkout-resumen { position: static; }
+}

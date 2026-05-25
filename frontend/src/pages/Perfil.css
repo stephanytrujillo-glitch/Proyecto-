@@ -1,0 +1,27 @@
+.perfil-page { padding: 60px 0 80px; }
+.perfil-card {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 44px 40px;
+}
+.perfil-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--rosa-light);
+}
+.perfil-avatar {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, var(--rosa-deep), var(--rosa));
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.perfil-avatar-wrap h1 { font-size: 1.4rem; margin-bottom: 6px; }
+.perfil-form h3 { font-size: 1.05rem; margin-bottom: 20px; color: var(--marron); }

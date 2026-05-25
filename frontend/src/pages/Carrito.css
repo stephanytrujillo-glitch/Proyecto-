@@ -1,0 +1,92 @@
+.carrito-page { padding: 40px 0 80px; }
+.carrito-titulo { font-size: 2rem; margin-bottom: 32px; }
+
+.carrito-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.carrito-items { display: flex; flex-direction: column; gap: 14px; }
+.carrito-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+}
+.carrito-item img {
+  width: 72px; height: 72px;
+  object-fit: cover;
+  border-radius: var(--radio-sm);
+  background: var(--rosa-light);
+  flex-shrink: 0;
+}
+.item-info { flex: 1; min-width: 0; }
+.item-info h3 { font-size: 0.95rem; color: var(--marron); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-precio { font-size: 0.85rem; color: var(--gris); }
+.item-cantidad {
+  display: flex; align-items: center;
+  border: 1.5px solid #e5d6da;
+  border-radius: 50px;
+  overflow: hidden;
+}
+.item-cantidad button {
+  width: 32px; height: 32px;
+  background: none; border: none;
+  font-size: 1rem;
+  color: var(--marron);
+  transition: var(--transicion);
+}
+.item-cantidad button:hover:not(:disabled) { background: var(--rosa-light); }
+.item-cantidad button:disabled { opacity: 0.35; cursor: not-allowed; }
+.item-cantidad span { min-width: 28px; text-align: center; font-weight: 600; font-size: 0.9rem; }
+.item-subtotal { font-weight: 700; color: var(--marron); min-width: 80px; text-align: right; font-size: 0.95rem; }
+.item-del {
+  background: none; border: none;
+  color: var(--gris);
+  font-size: 0.9rem;
+  transition: var(--transicion);
+  padding: 4px;
+}
+.item-del:hover { color: #e53e3e; }
+
+.carrito-resumen {
+  padding: 28px;
+  position: sticky;
+  top: 88px;
+}
+.carrito-resumen h3 { font-size: 1.2rem; margin-bottom: 20px; }
+.resumen-filas { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.resumen-fila {
+  display: flex; justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem; color: var(--gris);
+}
+.carrito-resumen hr { border: none; border-top: 1px solid var(--rosa-light); margin: 16px 0; }
+.resumen-total {
+  display: flex; justify-content: space-between;
+  font-weight: 700; font-size: 1.1rem;
+  color: var(--marron);
+  margin-bottom: 20px;
+}
+
+.carrito-empty {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+.carrito-empty span { font-size: 4rem; }
+.carrito-empty h2 { font-size: 1.6rem; }
+.carrito-empty p { color: var(--gris); }
+
+@media (max-width: 768px) {
+  .carrito-grid { grid-template-columns: 1fr; }
+  .carrito-resumen { position: static; }
+  .carrito-item { flex-wrap: wrap; }
+  .item-subtotal { display: none; }
+}

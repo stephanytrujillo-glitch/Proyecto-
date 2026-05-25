@@ -1,0 +1,90 @@
+.detalle-page { padding: 40px 0 80px; }
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; color: var(--gris);
+  margin-bottom: 32px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--rosa-deep); }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.detalle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.detalle-img {
+  position: relative;
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra-md);
+  background: var(--rosa-light);
+  aspect-ratio: 1;
+}
+.detalle-img img { width: 100%; height: 100%; object-fit: cover; }
+.detalle-badge { position: absolute; top: 14px; left: 14px; }
+
+.detalle-info { display: flex; flex-direction: column; gap: 16px; }
+.detalle-marca {
+  font-size: 0.78rem; font-weight: 700;
+  color: var(--rosa-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.detalle-nombre {
+  font-size: 2rem;
+  color: var(--marron);
+  line-height: 1.2;
+}
+.detalle-precio {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--rosa-deep);
+  font-family: 'Playfair Display', serif;
+}
+.detalle-desc {
+  font-size: 0.97rem;
+  color: var(--gris);
+  line-height: 1.7;
+}
+.detalle-stock { display: flex; }
+.detalle-cantidad { display: flex; align-items: center; gap: 16px; }
+.detalle-cantidad label { font-weight: 600; font-size: 0.9rem; }
+.cantidad-ctrl {
+  display: flex; align-items: center; gap: 0;
+  border: 1.5px solid #e5d6da;
+  border-radius: 50px;
+  overflow: hidden;
+}
+.cantidad-ctrl button {
+  width: 38px; height: 38px;
+  background: none; border: none;
+  font-size: 1.2rem;
+  color: var(--marron);
+  transition: var(--transicion);
+}
+.cantidad-ctrl button:hover { background: var(--rosa-light); color: var(--rosa-deep); }
+.cantidad-ctrl span {
+  min-width: 36px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.detalle-acciones { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.detalle-extras {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 18px;
+  background: var(--rosa-light);
+  border-radius: var(--radio-sm);
+}
+.extra-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; color: var(--marron);
+}
+
+@media (max-width: 768px) {
+  .detalle-grid { grid-template-columns: 1fr; gap: 28px; }
+  .detalle-nombre { font-size: 1.5rem; }
+}
