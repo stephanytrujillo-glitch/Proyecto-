@@ -6,7 +6,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -15,7 +31,7 @@ app.use('/api', require('./routes/index'));
 
 // Ruta raíz
 app.get('/', (req, res) => {
-  res.json({ mensaje: '🌸 API Beauty by Salomé Galindo activa', version: '1.0.0' });
+  res.json({ mensaje: 'API Beauty by Salomé Galindo activa', version: '1.0.0' });
 });
 
 // Manejo de errores 404
@@ -24,5 +40,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
