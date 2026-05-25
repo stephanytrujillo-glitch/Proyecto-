@@ -15,11 +15,11 @@ const registro = async (req, res) => {
   if (nombre.trim().length < 2) {
     return res.status(400).json({ mensaje: 'El nombre debe tener al menos 2 caracteres' });
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+  if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(correo)) {
     return res.status(400).json({ mensaje: 'Ingresa un correo electrónico válido' });
   }
-  if (contrasena.length < 6) {
-    return res.status(400).json({ mensaje: 'La contraseña debe tener al menos 6 caracteres' });
+  if (!/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(contrasena)) {
+    return res.status(400).json({ mensaje: 'La contraseña debe tener mínimo 8 caracteres, letras y números' });
   }
 
   try {

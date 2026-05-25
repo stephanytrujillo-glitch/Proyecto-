@@ -115,11 +115,11 @@ export function Registro() {
     if (form.nombre.trim().length < 2) {
       setError('El nombre debe tener al menos 2 caracteres'); return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.correo)) {
+    if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(form.correo)) {
       setError('Ingresa un correo electrónico válido'); return;
     }
-    if (form.contrasena.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres'); return;
+    if (!/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(form.contrasena)) {
+      setError('La contraseña debe tener mínimo 8 caracteres, letras y números'); return;
     }
 
     setCargando(true);
@@ -179,7 +179,7 @@ export function Registro() {
               type="password"
               value={form.contrasena}
               onChange={e => setForm({...form, contrasena: e.target.value})}
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Mínimo 8 caracteres, letras y números"
               required
             />
           </div>
