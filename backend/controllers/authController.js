@@ -9,6 +9,18 @@ const registro = async (req, res) => {
   if (!nombre || !correo || !contrasena) {
     return res.status(400).json({ mensaje: 'Nombre, correo y contraseña son obligatorios' });
   }
+  if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre.trim())) {
+    return res.status(400).json({ mensaje: 'El nombre solo puede contener letras' });
+  }
+  if (nombre.trim().length < 2) {
+    return res.status(400).json({ mensaje: 'El nombre debe tener al menos 2 caracteres' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+    return res.status(400).json({ mensaje: 'Ingresa un correo electrónico válido' });
+  }
+  if (contrasena.length < 6) {
+    return res.status(400).json({ mensaje: 'La contraseña debe tener al menos 6 caracteres' });
+  }
 
   try {
     const [existe] = await db.query('SELECT id FROM usuarios WHERE correo = ?', [correo]);
@@ -93,6 +105,9 @@ const perfil = async (req, res) => {
 // PUT /api/auth/perfil
 const actualizarPerfil = async (req, res) => {
   const { nombre, telefono } = req.body;
+  if (nombre && !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre.trim())) {
+    return res.status(400).json({ mensaje: 'El nombre solo puede contener letras' });
+  }
   try {
     await db.query(
       'UPDATE usuarios SET nombre = ?, telefono = ? WHERE id = ?',
@@ -110,20 +125,17 @@ const loginGoogle = async (req, res) => {
   if (!token) return res.status(400).json({ mensaje: 'Token requerido' });
 
   try {
-    // Decodificar el JWT de Google (sin verificar firma — para prototipo)
     const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     const { email, name, sub } = payload;
 
     if (!email) return res.status(400).json({ mensaje: 'No se pudo obtener el correo de Google' });
 
-    // Buscar si ya existe
     let [rows] = await db.query('SELECT * FROM usuarios WHERE correo = ?', [email]);
     let usuario;
 
     if (rows.length > 0) {
       usuario = rows[0];
     } else {
-      // Crear usuario nuevo con contraseña aleatoria
       const hash = await bcrypt.hash(sub + Date.now(), 10);
       const [result] = await db.query(
         'INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)',
@@ -149,11 +161,7 @@ const loginGoogle = async (req, res) => {
   }
 };
 
-// ============================================
-// HU016 - RECUPERAR CONTRASEÑA
-// ============================================
-
-// POST /api/auth/recuperar  -> genera un código y lo "envía"
+// POST /api/auth/recuperar
 const recuperarContrasena = async (req, res) => {
   const { correo } = req.body;
   if (!correo) return res.status(400).json({ mensaje: 'El correo es obligatorio' });
@@ -161,20 +169,16 @@ const recuperarContrasena = async (req, res) => {
   try {
     const [rows] = await db.query('SELECT id FROM usuarios WHERE correo = ?', [correo]);
     if (rows.length === 0) {
-      // Por seguridad, respondemos igual aunque no exista
       return res.json({ mensaje: 'Si el correo existe, recibirás un código de recuperación.' });
     }
 
-    // Generar código de 6 dígitos
     const codigo = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Guardar el código y su expiración (15 min) en la base de datos
     await db.query(
       'UPDATE usuarios SET reset_codigo = ?, reset_expira = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE correo = ?',
       [codigo, correo]
     );
 
-    // Intentar enviar el código por correo (si hay configuración de correo)
     let enviado = false;
     try {
       const { enviarCorreo } = require('../utils/email');
@@ -192,7 +196,6 @@ const recuperarContrasena = async (req, res) => {
       console.log('Código demo:', codigo);
     }
 
-    // En modo demo (sin correo configurado) devolvemos el código para poder probar
     res.json({
       mensaje: 'Código de recuperación generado.',
       enviado,
@@ -204,7 +207,7 @@ const recuperarContrasena = async (req, res) => {
   }
 };
 
-// POST /api/auth/restablecer  -> valida el código y cambia la contraseña
+// POST /api/auth/restablecer
 const restablecerContrasena = async (req, res) => {
   const { correo, codigo, nueva_contrasena } = req.body;
   if (!correo || !codigo || !nueva_contrasena) {
@@ -242,10 +245,6 @@ const restablecerContrasena = async (req, res) => {
   }
 };
 
-// ============================================
-// HU017 - DIRECCIONES GUARDADAS
-// ============================================
-
 // GET /api/auth/direcciones
 const obtenerDirecciones = async (req, res) => {
   try {
@@ -266,7 +265,6 @@ const crearDireccion = async (req, res) => {
     return res.status(400).json({ mensaje: 'Dirección y ciudad son obligatorias' });
   }
   try {
-    // Si es principal, quitar el principal anterior
     if (es_principal) {
       await db.query('UPDATE direcciones SET es_principal = FALSE WHERE usuario_id = ?', [req.usuario.id]);
     }

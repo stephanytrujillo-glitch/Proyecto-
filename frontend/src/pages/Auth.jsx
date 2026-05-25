@@ -108,7 +108,20 @@ export function Registro() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (form.contrasena.length < 6) { setError('La contraseña debe tener al menos 6 caracteres'); return; }
+
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(form.nombre.trim())) {
+      setError('El nombre solo puede contener letras'); return;
+    }
+    if (form.nombre.trim().length < 2) {
+      setError('El nombre debe tener al menos 2 caracteres'); return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.correo)) {
+      setError('Ingresa un correo electrónico válido'); return;
+    }
+    if (form.contrasena.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres'); return;
+    }
+
     setCargando(true);
     try {
       await registro(form.nombre, form.correo, form.contrasena, form.telefono);
@@ -133,7 +146,7 @@ export function Registro() {
     <div className="auth-page">
       <div className="auth-card card">
         <div className="auth-header">
-          <span className="auth-icon"><Heart size={32} color="c4687c" /></span>
+          <span className="auth-icon"><Heart size={32} color="#c4687c" /></span>
           <h1>Crear cuenta</h1>
           <p>Únete a nuestra comunidad beauty</p>
         </div>
