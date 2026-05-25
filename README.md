@@ -1,215 +1,62 @@
-# Beauty by Salomé Galindo — Plataforma Web
+# Beauty by Salomé
 
-Plataforma de e-commerce para maquillaje, skincare y accesorios.  
-Proyecto universitario — Unibagué 2025.
+Tienda virtual de maquillaje, skincare y accesorios.
 
-## Stack tecnológico
-| Capa | Tecnología |
-|------|-----------|
-| Frontend | React.js + React Router |
-| Backend | Node.js + Express |
-| Base de datos | MySQL |
-| Autenticación | JWT (JSON Web Tokens) |
-| Estilos | CSS3 personalizado |
+## Links
+- **Producción:** https://beauty-salome.vercel.app
+- **Backend:** https://proyecto-production-5afd.up.railway.app
 
----
+## Tecnologías
+- **Frontend:** React 18, React Router, Axios
+- **Backend:** Node.js, Express 4
+- **Base de datos:** MySQL 8
+- **Autenticación:** JWT, bcryptjs
+- **Correos:** Resend
+- **Despliegue:** Vercel (frontend), Railway (backend + BD)
 
-## Cómo ejecutar el proyecto
+## Variables de entorno
 
-### 1. Base de datos (MySQL)
+### Backend (.env)
+- DB_HOST=
+- DB_USER=
+- DB_PASSWORD=
+- DB_NAME=
+- DB_PORT=
+- JWT_SECRET=
+- JWT_EXPIRES=7d
+- EMAIL_USER=
+- EMAIL_PASS=
+- RESEND_API_KEY=
+- FRONTEND_URL=https://beauty-salome.vercel.app
+- PORT=5000
 
-```bash
-# Abre MySQL Workbench o tu cliente MySQL y ejecuta:
-mysql -u root -p < database/schema.sql
-```
+### Frontend (.env)
+- REACT_APP_API_URL=https://proyecto-production-5afd.up.railway.app/api
 
-Esto crea la base de datos `beauty_salome` con todas las tablas y datos iniciales.
+## Instalación local
 
----
+### Requisitos
+- Node.js 18+
+- MySQL 8
 
-### 2. Backend
-
+### Backend
 ```bash
 cd backend
 npm install
-
-# Configura las variables de entorno
 cp .env.example .env
-# Edita .env con tus credenciales de MySQL
+# Completa las variables de entorno
+node server.js
 ```
 
-Edita `backend/.env`:
-```
-PORT=5000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=beauty_salome
-JWT_SECRET=beauty_salome_secret_key_2024
-JWT_EXPIRES=7d
-```
-
-```bash
-# Iniciar servidor backend
-npm run dev     # Con auto-recarga (nodemon)
-# o
-npm start       # Producción
-```
-
-El backend corre en: **http://localhost:5000**
-
----
-
-### 3. Frontend
-
+### Frontend
 ```bash
 cd frontend
 npm install
+cp .env.example .env
+# Completa REACT_APP_API_URL=http://localhost:5000/api
 npm start
 ```
 
-El frontend corre en: **http://localhost:3000**
-
----
-
-## Usuarios de prueba
-
-| Rol | Correo | Contraseña |
-|-----|--------|-----------|
-| Admin | admin@beautysalome.com | admin123 |
-
----
-
-## Estructura del proyecto
-
-```
-beauty-salome/
-├── database/
-│   └── schema.sql              # Estructura BD + datos iniciales
-├── backend/
-│   ├── server.js               # Punto de entrada Express
-│   ├── .env.example            # Variables de entorno ejemplo
-│   ├── config/db.js            # Conexión MySQL
-│   ├── middleware/auth.js      # Verificación JWT
-│   ├── routes/index.js         # Todas las rutas API
-│   └── controllers/
-│       ├── authController.js   # Registro, login, perfil
-│       ├── productosController.js
-│       ├── carritoController.js
-│       └── pedidosController.js
-└── frontend/
-    ├── public/index.html
-    └── src/
-        ├── App.js              # Router principal
-        ├── index.js
-        ├── index.css           # Estilos globales
-        ├── services/api.js     # Cliente Axios
-        ├── context/
-        │   ├── AuthContext.js  # Estado de autenticación
-        │   └── CarritoContext.js
-        ├── components/
-        │   ├── Navbar.jsx/css
-        │   ├── Footer.jsx/css
-        │   └── ProductCard.jsx/css
-        └── pages/
-            ├── Home.jsx/css
-            ├── Catalogo.jsx/css
-            ├── DetalleProducto.jsx/css
-            ├── Auth.jsx/css       # Login + Registro
-            ├── Carrito.jsx/css
-            ├── Checkout.jsx/css
-            ├── MisPedidos.jsx/css
-            ├── Perfil.jsx/css
-            ├── Contacto.jsx/css
-            └── Admin.jsx/css
-```
-
----
-
-## Endpoints API
-
-### Auth
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/api/auth/registro` | Crear cuenta |
-| POST | `/api/auth/login` | Iniciar sesión |
-| GET | `/api/auth/perfil` | Ver perfil |
-| PUT | `/api/auth/perfil` | Editar perfil |
-
-### Productos
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/productos` | Listar productos (con filtros) |
-| GET | `/api/productos/:id` | Detalle de producto |
-| POST | `/api/productos` | Crear producto (admin) |
-| PUT | `/api/productos/:id` | Editar producto (admin) |
-| DELETE | `/api/productos/:id` | Eliminar producto (admin) |
-| GET | `/api/categorias` | Listar categorías |
-
-### Carrito
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/carrito` | Ver carrito  |
-| POST | `/api/carrito` | Agregar al carrito  |
-| PUT | `/api/carrito/:id` | Actualizar cantidad  |
-| DELETE | `/api/carrito/:id` | Eliminar item  |
-| DELETE | `/api/carrito` | Vaciar carrito  |
-
-### Pedidos
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/api/pedidos` | Crear pedido |
-| GET | `/api/pedidos` | Mis pedidos |
-| GET | `/api/pedidos/:id` | Detalle pedido |
-| GET | `/api/admin/pedidos` | Todos los pedidos (admin) |
-| PUT | `/api/admin/pedidos/:id` | Cambiar estado (admin) |
-
----
-
-## Historias de usuario implementadas
-
-| HU | Descripción | Estado |
-|----|-------------|--------|
-| HU001 | Registrar usuario | 
-| HU002 | Iniciar sesión |
-| HU003 | Ver catálogo | 
-| HU004 | Filtrar productos | 
-| HU005 | Ver detalle producto | 
-| HU006 | Agregar al carrito | 
-| HU007 | Gestionar carrito | 
-| HU008 | Realizar pedido | 
-| HU009 | Ver redes sociales | 
-| HU010 | Contactar tienda | 
-| HU011 | Historial de pedidos | 
-| HU012 | Productos destacados | 
-| HU013 | Administrar productos | 
-| HU014 | Gestionar pedidos (admin) |
-| HU015 | Método de pago | 
-| HU017 | Editar perfil | 
-| HU019 | Ver resumen del pedido | 
-
----
-
-## Subir a GitHub
-
-```bash
-# Desde la raíz del proyecto
-git init
-git add .
-git commit -m "feat: prototipo inicial Beauty by Salomé - 50-60%"
-git branch -M main
-git remote add origin https://github.com/stephanytrujillo-glitch/Proyecto-.git
-git push -u origin main
-```
-
----
-
-## Equipo
-
-| Nombre | Código |
-|--------|--------|
-| Juan Camilo Acuña Rojas | 2220241115 |
-| Stephany Trujillo | 2220241091 |
-| Luis Miguel Hernández Bermeo | 2220241018 |
-
-**Universidad de Ibagué — 2025**
+## Credenciales de prueba
+- **Admin:** admin@beautysalome.com / admin123
+- **Cliente:** cualquier cuenta registrada
