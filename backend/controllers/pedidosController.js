@@ -142,7 +142,7 @@ const actualizarEstado = async (req, res) => {
         await notificarEstadoPedido(info[0].correo, req.params.id, estado);
       }
     } catch (e) {
-      console.log('Notificación por correo no enviada (modo demo):', e.message);
+  console.log('Notificación por correo no enviada (modo demo):', e.message, e);
     }
 
     res.json({ mensaje: 'Estado del pedido actualizado' });
