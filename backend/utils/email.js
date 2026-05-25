@@ -1,11 +1,23 @@
-const { Resend } = require('resend');
+const nodemailer = require('nodemailer');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function obtenerTransporter() {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    throw new Error('Faltan EMAIL_USER o EMAIL_PASS en el .env');
+  }
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+}
 
 async function enviarCorreo(destinatario, asunto, html) {
-  await resend.emails.send({
-    from: 'Beauty by Salomé <onboarding@resend.dev>',
-    to: 'juan.acuna1@estudiantesunibague.edu.co',
+  const transporter = obtenerTransporter();
+  await transporter.sendMail({
+    from: `"Beauty by Salomé" <${process.env.EMAIL_USER}>`,
+    to: destinatario,
     subject: asunto,
     html
   });
