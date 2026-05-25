@@ -229,9 +229,10 @@ export default function Admin() {
                         <td>{new Date(p.creado_en).toLocaleDateString('es-CO')}</td>
                         <td>
                           <select
-                            className={`estado-select badge ${ESTADO_BADGE[p.estado]}`}
-                            value={p.estado}
-                            onChange={e => cambiarEstado(p.id, e.target.value)}
+                          key={`${p.id}-${p.estado}`}
+                          className={`estado-select badge ${ESTADO_BADGE[p.estado]}`}
+                          value={p.estado}
+                          onChange={e => cambiarEstado(p.id, e.target.value)}
                           >
                             {ESTADOS.map(s => (
                               <option key={s} value={s}>{s.replace('_', ' ')}</option>
