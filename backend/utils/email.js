@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 async function enviarCorreo(destinatario, asunto, html) {
   await resend.emails.send({
     from: 'Beauty by Salomé <onboarding@resend.dev>',
-    to: destinatario,
+    to: 'juan.acuna1@estudiantesunibague.edu.co',
     subject: asunto,
     html
   });
